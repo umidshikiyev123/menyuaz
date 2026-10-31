@@ -7,19 +7,21 @@
 <style>
   @property --a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
   * { box-sizing: border-box; }
-  body { margin: 0; font-family: system-ui, Arial, sans-serif; background: #f2f2ef; color: #222; }
-  header { background: #1d1a17; color: #fff; padding: 16px 24px; font-family: Georgia, serif; font-size: 1.3rem; }
+  body { margin: 0; font-family: system-ui, Arial, sans-serif; background: linear-gradient(135deg, #eef2ff 0%, #fdf2f8 50%, #ecfeff 100%); background-attachment: fixed; color: #1e1b4b; }
+  header { background: linear-gradient(90deg, #4f46e5, #7c3aed 50%, #db2777); color: #fff; padding: 16px 24px; font-family: Georgia, serif; font-size: 1.3rem; box-shadow: 0 4px 18px rgba(79,70,229,0.25); }
   .wrap { display: grid; grid-template-columns: minmax(320px, 460px) 1fr; gap: 20px; padding: 20px; max-width: 1400px; margin: 0 auto; align-items: start; }
   .right { position: sticky; top: 16px; height: calc(100vh - 32px); }
-  .panel { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 18px; margin-bottom: 14px; }
-  h3 { margin: 0 0 12px; font-size: 0.9rem; color: #555; text-transform: uppercase; letter-spacing: 1px; }
+  .panel { background: rgba(255,255,255,0.9); border: 1px solid #e0e7ff; border-radius: 14px; padding: 18px; margin-bottom: 14px; box-shadow: 0 8px 26px rgba(79,70,229,0.08); }
+  h3 { margin: 0 0 12px; font-size: 0.9rem; color: #4f46e5; text-transform: uppercase; letter-spacing: 1px; }
   label { display: block; font-size: 0.82rem; color: #666; margin: 8px 0 4px; }
-  input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font: inherit; background: #fff; }
-  button { font: inherit; cursor: pointer; border: 1px solid #bbb; background: #fff; padding: 7px 12px; border-radius: 5px; }
-  button.primary { background: #b5452f; color: #fff; border-color: #b5452f; }
+  input { width: 100%; padding: 8px 10px; border: 1px solid #c7d2fe; border-radius: 8px; font: inherit; background: #fff; transition: border-color 0.2s, box-shadow 0.2s; }
+  input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px #e0e7ff; }
+  button { font: inherit; cursor: pointer; border: 1px solid #c7d2fe; background: #fff; color: #4338ca; padding: 7px 12px; border-radius: 8px; transition: transform 0.15s, box-shadow 0.15s; }
+  button:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(99,102,241,0.2); }
+  button.primary { background: linear-gradient(90deg, #6366f1, #ec4899); color: #fff; border: none; }
   .small { font-size: 0.8rem; color: #777; }
   .pal { display: flex; gap: 8px; flex-wrap: wrap; }
-  .pal label { display: flex; align-items: center; gap: 6px; border: 1px solid #ccc; border-radius: 6px; padding: 6px 10px; cursor: pointer; margin: 0; color: #222; }
+  .pal label { display: flex; align-items: center; gap: 6px; border: 1px solid #c7d2fe; border-radius: 8px; padding: 6px 10px; cursor: pointer; margin: 0; color: #312e81; background: #fff; }
   .pal input { width: auto; }
   .pal label.pt { display: block; position: relative; width: 76px; height: 58px; padding: 0; border: 2px solid #ccc; border-radius: 8px; background: linear-gradient(90deg, var(--l) 50%, var(--r) 50%); }
   .pal label.pt input { position: absolute; left: 6px; bottom: 6px; margin: 0; }
@@ -31,16 +33,16 @@
   .thumbs img { width: 70px; height: 50px; object-fit: cover; border-radius: 4px; margin: 4px; }
 
   /* ===== Menyu redaktoru (sadə və aydın) ===== */
-  .cat { border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 14px; background: #fafaf8; }
+  .cat { border: 1px solid #e0e7ff; border-radius: 12px; padding: 12px; margin-bottom: 14px; background: linear-gradient(180deg, #f5f3ff, #fdf4ff); }
   .cat-top { display: flex; gap: 8px; align-items: flex-end; }
   .cat-top > div { flex: 1; }
   .cat-top label { margin-top: 0; }
-  .prod { background: #fff; border: 1px solid #e5e5e5; border-radius: 6px; padding: 10px; margin-top: 10px; }
+  .prod { background: #fff; border: 1px solid #ede9fe; border-radius: 10px; padding: 10px; margin-top: 10px; }
   .prod-top { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
   .two { display: grid; grid-template-columns: 110px 1fr; gap: 8px; }
   .two label { margin-top: 4px; }
-  .del { color: #b5452f; border-color: #e0b5aa; padding: 5px 10px; font-size: 0.8rem; }
-  .add { width: 100%; margin-top: 10px; border-style: dashed; color: #555; }
+  .del { color: #db2777; border-color: #fbcfe8; padding: 5px 10px; font-size: 0.8rem; }
+  .add { width: 100%; margin-top: 10px; border-style: dashed; color: #6d28d9; border-color: #c4b5fd; }
   .addcat { width: 100%; padding: 10px; border-style: dashed; }
 
   /* ===== Paketlər: yalnız kənar xətt rəngli və fırlanan olur ===== */
