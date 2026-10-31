@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menyu</title>
+  <style>
+    :root {
+      --dark: #1d1a17;
+      --paper: #f7f1e8;
+      --ink: #2a2520;
+      --muted: #7a6f64;
+      --accent: #b5452f;
+      --line: #e2d8c8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Georgia", "Times New Roman", serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    /* ===== Hero: fade ilə dəyişən arxa plan şəkilləri ===== */
+    .hero {
+      position: relative;
+      min-height: 62vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+      overflow: hidden;
+      background: var(--dark);
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.6s ease-in-out;
+    }
+    .slide.active { opacity: 1; }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(rgba(20,16,12,0.5), rgba(20,16,12,0.78));
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 6vw, 3.6rem);
+      letter-spacing: 1px;
+      font-weight: normal;
+    }
+    .hero p {
+      margin-top: 10px;
+      font-size: 1.05rem;
+      opacity: 0.85;
+      font-style: italic;
+    }
+    .hero .scroll-hint {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.8rem;
+      opacity: 0.6;
+      letter-spacing: 2px;
+      z-index: 2;
+    }
+
+    /* ===== Menyu kartı ===== */
+    .menu-wrap {
+      max-width: 680px;
+      margin: -60px auto 0;
+      padding: 0 16px 40px;
+      position: relative;
+      z-index: 3;
+    }
+    .menu-card {
+      background: #fffdf9;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 36px 28px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+    }
+
+    .lang-switch {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .lang-switch button {
+      background: none;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      padding: 4px 12px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.8rem;
+      border-radius: 3px;
+    }
+    .lang-switch button.active {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+
+    .category { margin-top: 30px; }
+    .category:first-of-type { margin-top: 0; }
+    .category-title {
+      text-align: center;
+      font-size: 1.35rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 14px;
+    }
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px dotted var(--line);
+    }
+    .item:last-child { border-bottom: none; }
+    .item-left { flex: 1; }
+    .item-name { font-size: 1.05rem; }
+    .item-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-style: italic;
+      margin-top: 2px;
+    }
+    .item-price {
+      font-size: 1.05rem;
+      white-space: nowrap;
+    }
+
+    /* ===== Öz menyunu yarat bölməsi ===== */
+    .cta {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      text-align: center;
+    }
+    .cta h2 {
+      font-size: 1.6rem;
+      font-weight: normal;
+      margin-bottom: 10px;
+    }
+    .cta p {
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 26px;
+      border-radius: 4px;
+      font-family: inherit;
+      letter-spacing: 1px;
+    }
+    .cta-btn:hover { opacity: 0.9; }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin: 28px 0 10px;
+      text-align: left;
+    }
+    .feature {
+      background: #fffdf9;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 16px;
+    }
+    .feature strong {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: normal;
+      color: var(--ink);
+    }
+    .feature span {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      padding: 0 16px 40px;
+    }
+
+    /* ===== Aşağıdan yuxarı görünmə ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<section class="hero" id="hero">
+  <div class="slide active" style="background-image:url('images/bg1.avif')"></div>
+  <div class="slide" style="background-image:url('images/bg2.avif')"></div>
+  <div class="slide" style="background-image:url('images/bg3.avif')"></div>
+  <div class="slide" style="background-image:url('images/bg4.avif')"></div>
+  <div class="slide" style="background-image:url('images/bg5.avif')"></div>
+  <div class="hero-content">
+    <h1 id="shopName">Restoran Adı</h1>
+    <p id="tagline">Slogan burada yazılır</p>
+  </div>
+  <span class="scroll-hint">AŞAĞI</span>
+</section>
+
+<div class="menu-wrap">
+  <div class="menu-card reveal">
+    <div class="lang-switch">
+      <button data-lang="az" class="active">AZ</button>
+      <button data-lang="en">EN</button>
+    </div>
+    <div id="menu"></div>
+  </div>
+</div>
+
+<section class="cta reveal" id="cta">
+  <h2 id="ctaTitle">Öz menyunuzu yaradın</h2>
+  <p id="ctaText">Kafe və ya restoranınız üçün QR menyu saytı qurun. Qiymətləri və məhsulları istədiyiniz vaxt dəyişə bilərsiniz.</p>
+  <div class="features">
+    <div class="feature"><strong>Hazır şablon</strong><span>Sadə, real görünən dizaynla başlayın.</span></div>
+    <div class="feature"><strong>Öz məhsullarınız</strong><span>Menyunu özünüz doldurun və yeniləyin.</span></div>
+    <div class="feature"><strong>QR kod</strong><span>Masalara qoyulan QR kodla menyu açılır.</span></div>
+    <div class="feature"><strong>Ayrıca domen</strong><span>Sayt üçün öz linkinizi əldə edin.</span></div>
+  </div>
+  <a class="cta-btn" id="ctaBtn" href="https://wa.me/994000000000" target="_blank" rel="noopener">Əlaqə saxla</a>
+</section>
+
+<footer id="footer">Qiymətlər AZN ilə göstərilir</footer>
+
+<script>
+  // ===== MƏLUMATLAR: yalnız bu hissəni dəyişin =====
+
+  // Əlaqə nömrəsi: 994 ilə başlayan nömrənizi yazın (boşluqsuz)
+  const whatsappNumber = "994000000000";
+
+  const shop = {
+    name: { az: "Restoran Adı", en: "Restaurant Name" },
+    tagline: { az: "Slogan burada yazılır", en: "Your tagline here" },
+    footer: { az: "Qiymətlər AZN ilə göstərilir", en: "Prices in AZN" },
+    cta: {
+      title: { az: "Öz menyunuzu yaradın", en: "Create your own menu" },
+      text: {
+        az: "Kafe və ya restoranınız üçün QR menyu saytı qurun. Qiymətləri və məhsulları istədiyiniz vaxt dəyişə bilərsiniz.",
+        en: "Build a QR menu site for your cafe or restaurant. Change prices and items whenever you want."
+      },
+      button: { az: "Əlaqə saxla", en: "Contact us" }
+    }
+  };
+
+  const categories = [
+    {
+      name: { az: "Qəhvə", en: "Coffee" },
+      items: [
+        { name: { az: "Espresso", en: "Espresso" }, desc: { az: "Qısa, güclü", en: "Short and strong" }, price: 2.5 },
+        { name: { az: "Cappuccino", en: "Cappuccino" }, desc: { az: "Süd köpüyü ilə", en: "With milk foam" }, price: 3.5 }
+      ]
+    },
+    {
+      name: { az: "Yeməklər", en: "Main Dishes" },
+      items: [
+        { name: { az: "Sezar salatı", en: "Caesar Salad" }, desc: { az: "Toyuq, kruton, parmesan", en: "Chicken, croutons, parmesan" }, price: 7 },
+        { name: { az: "Burger", en: "Burger" }, desc: { az: "Mal əti, pomidor, kartof", en: "Beef, tomato, fries" }, price: 9 }
+      ]
+    },
+    {
+      name: { az: "Desertlər", en: "Desserts" },
+      items: [
+        { name: { az: "Çizkeyk", en: "Cheesecake" }, desc: { az: "Ev hazırlığı", en: "Homemade" }, price: 4.5 }
+      ]
+    }
+  ];
+  // ===================================================
+
+  let currentLang = "az";
+
+  function t(obj) {
+    return obj[currentLang] || obj.az;
+  }
+
+  function render() {
+    document.getElementById("shopName").textContent = t(shop.name);
+    document.getElementById("tagline").textContent = t(shop.tagline);
+    document.getElementById("footer").textContent = t(shop.footer);
+    document.getElementById("ctaTitle").textContent = t(shop.cta.title);
+    document.getElementById("ctaText").textContent = t(shop.cta.text);
+    document.getElementById("ctaBtn").textContent = t(shop.cta.button);
+    document.getElementById("ctaBtn").href = "https://wa.me/" + whatsappNumber;
+    document.title = t(shop.name);
+    document.documentElement.lang = currentLang;
+
+    const menu = document.getElementById("menu");
+    menu.innerHTML = "";
+    categories.forEach(cat => {
+      const section = document.createElement("div");
+      section.className = "category";
+
+      const title = document.createElement("div");
+      title.className = "category-title";
+      title.textContent = t(cat.name);
+      section.appendChild(title);
+
+      cat.items.forEach(item => {
+        const row = document.createElement("div");
+        row.className = "item";
+        row.innerHTML = `
+          <div class="item-left">
+            <div class="item-name"></div>
+            <div class="item-desc"></div>
+          </div>
+          <div class="item-price"></div>`;
+        row.querySelector(".item-name").textContent = t(item.name);
+        row.querySelector(".item-desc").textContent = t(item.desc);
+        row.querySelector(".item-price").textContent = item.price.toFixed(2) + " ₼";
+        section.appendChild(row);
+      });
+
+      menu.appendChild(section);
+    });
+
+    document.querySelectorAll(".lang-switch button").forEach(b => {
+      b.classList.toggle("active", b.dataset.lang === currentLang);
+    });
+  }
+
+  document.querySelectorAll(".lang-switch button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      currentLang = btn.dataset.lang;
+      render();
+    });
+  });
+
+  // Hero şəkillərinin fade ilə dəyişməsi (hər 5 saniyə)
+  const slides = document.querySelectorAll(".slide");
+  let slideIndex = 0;
+  setInterval(() => {
+    slides[slideIndex].classList.remove("active");
+    slideIndex = (slideIndex + 1) % slides.length;
+    slides[slideIndex].classList.add("active");
+  }, 5000);
+
+  // Aşağı sürüşdükcə elementlər yuxarıya doğru görünür
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+
+  render();
+</script>
+</body>
+</html>
