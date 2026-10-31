@@ -7,19 +7,22 @@
 <style>
   @property --a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
   * { box-sizing: border-box; }
-  body { margin: 0; font-family: system-ui, Arial, sans-serif; background: linear-gradient(135deg, #eef2ff 0%, #fdf2f8 50%, #ecfeff 100%); background-attachment: fixed; color: #1e1b4b; }
+  body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif; background: linear-gradient(135deg, #eef2ff 0%, #fdf2f8 50%, #ecfeff 100%); background-attachment: fixed; color: #1e1b4b; }
   header { background: linear-gradient(90deg, #4f46e5, #7c3aed 50%, #db2777); color: #fff; padding: 16px 24px; font-family: Georgia, serif; font-size: 1.3rem; box-shadow: 0 4px 18px rgba(79,70,229,0.25); }
   .wrap { display: grid; grid-template-columns: minmax(320px, 460px) 1fr; gap: 20px; padding: 20px; max-width: 1400px; margin: 0 auto; align-items: start; }
   .right { position: sticky; top: 16px; height: calc(100vh - 32px); }
   .panel { background: rgba(255,255,255,0.9); border: 1px solid #e0e7ff; border-radius: 14px; padding: 18px; margin-bottom: 14px; box-shadow: 0 8px 26px rgba(79,70,229,0.08); }
   h3 { margin: 0 0 12px; font-size: 0.9rem; color: #4f46e5; text-transform: uppercase; letter-spacing: 1px; }
-  label { display: block; font-size: 0.82rem; color: #666; margin: 8px 0 4px; }
+  label { display: block; font-size: 0.85rem; color: #4338ca; font-weight: 600; margin: 10px 0 5px; letter-spacing: 0.2px; }
   input { width: 100%; padding: 8px 10px; border: 1px solid #c7d2fe; border-radius: 8px; font: inherit; background: #fff; transition: border-color 0.2s, box-shadow 0.2s; }
   input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px #e0e7ff; }
   button { font: inherit; cursor: pointer; border: 1px solid #c7d2fe; background: #fff; color: #4338ca; padding: 7px 12px; border-radius: 8px; transition: transform 0.15s, box-shadow 0.15s; }
   button:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(99,102,241,0.2); }
   button.primary { background: linear-gradient(90deg, #6366f1, #ec4899); color: #fff; border: none; }
-  .small { font-size: 0.8rem; color: #777; }
+  .small { font-size: 0.82rem; color: #6b7280; line-height: 1.55; }
+  .small a { color: #4f46e5; font-weight: 600; }
+  .dlrow { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+  .dlrow .small { flex: 1; min-width: 200px; }
   .pal { display: flex; gap: 8px; flex-wrap: wrap; }
   .pal label { display: flex; align-items: center; gap: 6px; border: 1px solid #c7d2fe; border-radius: 8px; padding: 6px 10px; cursor: pointer; margin: 0; color: #312e81; background: #fff; }
   .pal input { width: auto; }
@@ -173,9 +176,9 @@
         </div>
       </div>
       <p class="small" style="margin-top:10px">Ucuz və sərfəli paket üçün bizə yazın: <a href="https://wa.me/994000000000" target="_blank" rel="noopener">+994 00 000 00 00</a></p>
-      <button id="dl" style="margin-top:10px">Saytı endir (index.html)</button>
-      <p class="small" style="margin-top:6px">Bu, restoranın öz saytının hazır faylıdır. Faylı hostinqə və ya domenə yükləyib istifadə etmək olar.</p>
-    </div>
+      <p class="small" style="margin-top:12px">Saytı aktiv saxlamaq üçün hər 3 ayda bir ödəniş etməlisiniz. Narahat olmayın, ödənişlər kiçikdir. Daha çox və dərin məlumat yalnız bizim <a href="https://wa.me/994000000000" target="_blank" rel="noopener">WhatsApp ünvanımızdadır</a>.</p>
+      <div class="dlrow"><button id="dl">Saytı endir (index.html)</button><span class="small">Saytı endirib bizə göndərin. Biz isə sizin saytınızı sərfəli və ucuz formada hazırlayırıq.</span></div>
+          </div>
   </div>
 
   <div class="right"><iframe id="preview" title="Önizləmə"></iframe></div>
