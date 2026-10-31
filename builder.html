@@ -173,6 +173,9 @@
   .pkg .info { background: rgba(255,255,255,0.94); border-radius: 8px; padding: 0 10px; color: #111; opacity: 1; }
   .pkgs:hover .info, .pkgs.open .info { padding: 10px; }
   .pkg .info ul, .pkg .info li { color: #111; font-weight: 500; }
+  .pkg .info li { font-size: 0.88rem; overflow-wrap: anywhere; }
+  .pkg .info ul { margin: 0 0 8px; padding-left: 16px; }
+  .pkg .info .order { margin-top: 6px; }
   .pkg-head b { color: #111; }
   .pkg-head span { color: #333; }
   .pkg.premium .pkg-head span { color: #b5452f; font-weight: bold; }
@@ -255,7 +258,8 @@
               <li>124 məhsula qədər menyu</li>
               <li>5 şəkil</li>
               <li>3 ayda 2 dəyişiklik</li>
-              <li>WhatsApp dəstəyi, 24 saat ərzində cavab</li><li>menyuaz.online/adınız ünvanı</li>
+              <li>WhatsApp dəstəyi, 24 saat ərzində cavab</li>
+              <li>Sayt: menyuaz.online/ad</li>
             </ul>
             <button class="primary order" data-order="Standart 24 AZN / 3 ay">Sifariş et</button>
           </div>
@@ -517,7 +521,7 @@
   ${slides}
   <div class="hero-content">
     ${data.logo ? `<img src="${data.logo}" alt="" style="width:96px;height:96px;object-fit:contain;border-radius:50%;background:#fff;padding:6px;margin-bottom:14px">` : ""}
-    <h1>${esc(data.name || "Restoran Adı")}</h1>
+    <h1>${esc(data.name || "")}</h1>
     <p>${esc(data.tagline)}</p>
   </div>
 </section>
