@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Menyu yaradın</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <style>
   @property --a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
   * { box-sizing: border-box; }
@@ -102,6 +103,14 @@
   .info .order { width: 100%; }
 
   iframe { width: 100%; height: 100%; border: 1px solid #ccc; border-radius: 8px; background: #fff; }
+  .vbar { display: flex; gap: 8px; justify-content: center; margin-bottom: 8px; }
+  .vbar button.on { background: linear-gradient(90deg, #1d4ed8, #475569); color: #fff; border: none; }
+  .right iframe { height: calc(100% - 46px); }
+  .right iframe.phone { width: 390px; max-width: 100%; margin: 0 auto; display: block; }
+  .qrbox { display: flex; gap: 14px; align-items: center; margin-top: 10px; flex-wrap: wrap; }
+  .qrbox img { width: 140px; height: 140px; background: #fff; padding: 6px; border-radius: 8px; }
+  .qrbox p { margin-bottom: 8px; }
+
   /* ===== Tünd göy və boz tema ===== */
   body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #334155 100%); background-attachment: fixed; color: #e2e8f0; }
   header { background: linear-gradient(90deg, #0b1d3a, #1e3a5f 60%, #475569); box-shadow: 0 4px 18px rgba(0,0,0,0.35); }
@@ -144,6 +153,17 @@
       <input id="tagline" placeholder="Məsələn: Ən təzə dadlar">
       <label>WhatsApp nömrəsi (994 ilə, boşluqsuz)</label>
       <input id="phone" placeholder="994501234567">
+      <label>Ünvan</label>
+      <input id="address" placeholder="Məsələn: Nizami küç. 12">
+      <label>İş saatları</label>
+      <input id="hours" placeholder="Məsələn: 09:00 – 23:00">
+      <label>Instagram (istəyə görə)</label>
+      <input id="insta" placeholder="@restoranadi">
+      <label>Loqo (istəyə görə)</label>
+      <input type="file" id="logo" accept="image/*">
+      <label>Vurğu rəngi (dəyişməsəniz şablonun rəngi qalır)</label>
+      <input type="color" id="brand" style="height:40px;padding:4px">
+      <p class="small" id="draftNote" style="margin-top:8px"></p>
     </div>
 
     <div class="panel">
@@ -168,6 +188,13 @@
       <input type="file" id="photos" accept="image/*" multiple>
       <div class="thumbs" id="thumbs"></div>
       <p class="small">Şəkil yükləməsəniz, hazır şəkillər istifadə olunacaq.</p>
+    </div>
+
+    <div class="panel">
+      <h3>QR kod və sayt ünvanı</h3>
+      <label>Sayt ünvanı (domen bağlananda bu olacaq)</label>
+      <input id="slug" placeholder="məsələn: gulustan-kafe">
+      <div class="qrbox"><img id="qrimg" alt="QR kod"><div><p class="small">Bu QR kodu çap edib masaya qoyun. Müştəri oxuduqda menyu açılır.</p><button id="qrdl">QR kodu endir</button></div></div>
     </div>
 
     <div class="panel">
@@ -203,11 +230,11 @@
       </div>
       <p class="small" style="margin-top:10px">Ucuz və sərfəli paket üçün bizə yazın: <a href="https://wa.me/994991295237" target="_blank" rel="noopener">+994 99 129 52 37</a></p>
       <p class="small" style="margin-top:12px">Saytı aktiv saxlamaq üçün hər 3 ayda bir ödəniş etməlisiniz. Narahat olmayın, ödənişlər kiçikdir. Daha çox və dərin məlumat yalnız bizim <a href="https://wa.me/994991295237" target="_blank" rel="noopener">WhatsApp ünvanımızdadır</a>.</p>
-      <div class="dlrow"><button id="dl">Saytı endir (index.html)</button><span class="small">Saytı endirib bizə göndərin. Biz isə sizin saytınızı sərfəli və ucuz formada hazırlayırıq.</span></div>
+      <div class="dlrow"><button id="dl">Saytı endir (index.html)</button><span class="small"><b>Sizin saytınız hazırdır!</b> Faylı endirin, sonra WhatsApp-da bizə göndərin. Biz domeni bağlayırıq və sərfəli formada hazırlayırıq.</span></div>
           </div>
   </div>
 
-  <div class="right"><iframe id="preview" title="Önizləmə"></iframe></div>
+  <div class="right"><div class="vbar"><button id="vPhone">Telefon görünüşü</button><button id="vWide">Geniş görünüş</button></div><iframe id="preview" title="Önizləmə"></iframe></div>
 </div>
 
 <script>
@@ -264,6 +291,7 @@
 
   const data = {
     name: "", tagline: "", phone: "", pal: 0, font: 0,
+    address: "", hours: "", insta: "", slug: "", logo: "", brand: "",
     cats: [
       { name: "Qəhvə", items: [
         { name: "Espresso", desc: "Qısa, güclü", price: "2.50" },
@@ -388,6 +416,7 @@
   // əks halda brauzer bu builder-in öz skriptini burada bağlayır.
   function siteHTML() {
     const p = PALETTES[data.pal];
+    const acc = data.brand || p.accent;
     const photos = data.photos.length ? data.photos : defaults;
     const slides = photos.map((s, i) =>
       `<div class="slide${i === 0 ? " active" : ""}" style="background-image:url('${s}')"></div>`).join("");
@@ -409,9 +438,9 @@
 
     return `<!DOCTYPE html>
 <html lang="az"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${esc(data.name || "Menyu")}</title>
+<title>${esc(data.name || "Menyu")}</title>${data.logo ? `<link rel="icon" href="${data.logo}">` : ""}
 <style>
-  :root { --paper:${p.paper}; --card:${p.card}; --ink:${p.ink}; --muted:${p.muted}; --accent:${p.accent}; --line:${p.line}; --dark:${p.dark}; }
+  :root { --paper:${p.paper}; --card:${p.card}; --ink:${p.ink}; --muted:${p.muted}; --accent:${acc}; --line:${p.line}; --dark:${p.dark}; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: ${FONTS[data.font].css}; background: var(--paper); color: var(--ink); line-height: 1.5; }
   .hero { position: relative; min-height: 68vh; display: flex; align-items: center; justify-content: center; text-align: center; color: #fff; overflow: hidden; background: var(--dark); }
@@ -433,12 +462,15 @@
   .item-price { font-size: 1.05rem; white-space: nowrap; }
   .contact { text-align: center; padding: 30px 16px 10px; }
   .cta-btn { display: inline-block; background: var(--accent); color: #fff; text-decoration: none; padding: 12px 26px; border-radius: 4px; letter-spacing: 1px; }
+  .info-sec { text-align: center; padding: 26px 16px 0; color: var(--muted); line-height: 1.8; font-size: 0.95rem; }
+  .info-sec b { color: var(--ink); font-weight: normal; }
   footer { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 20px 16px 40px; }
 </style></head>
 <body>
 <section class="hero">
   ${slides}
   <div class="hero-content">
+    ${data.logo ? `<img src="${data.logo}" alt="" style="width:96px;height:96px;object-fit:contain;border-radius:50%;background:#fff;padding:6px;margin-bottom:14px">` : ""}
     <h1>${esc(data.name || "Restoran Adı")}</h1>
     <p>${esc(data.tagline)}</p>
   </div>
@@ -446,6 +478,7 @@
 <div class="menu-wrap">
   <div class="menu-card"><div id="menu">${cats}</div></div>
 </div>
+<section class="info-sec">${data.address ? `<div><b>Ünvan:</b> ${esc(data.address)}</div>` : ""}${data.hours ? `<div><b>İş saatları:</b> ${esc(data.hours)}</div>` : ""}${data.insta ? `<div><b>Instagram:</b> ${esc(data.insta)}</div>` : ""}</section>
 <div class="contact"><a class="cta-btn" href="${wa}" target="_blank" rel="noopener">Əlaqə saxla</a></div>
 <footer>Qiymətlər AZN ilə göstərilir</footer>
 <script>
@@ -459,8 +492,79 @@
   let timer;
   function update() {
     clearTimeout(timer);
-    timer = setTimeout(() => { $("preview").srcdoc = siteHTML(); }, 300);
+    timer = setTimeout(() => { $("preview").srcdoc = siteHTML(); saveDraft(); makeQR(); }, 300);
   }
+
+  // ---------- Yardımçı funksiyalar ----------
+  function shrinkTo(file, max) {
+    return new Promise(res => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        const s = Math.min(1, max / Math.max(img.width, img.height));
+        const c = document.createElement("canvas");
+        c.width = img.width * s; c.height = img.height * s;
+        const g = c.getContext("2d");
+        g.fillStyle = "#fff"; g.fillRect(0, 0, c.width, c.height);
+        g.drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url);
+        res(c.toDataURL("image/jpeg", 0.85));
+      };
+      img.onerror = () => res("");
+      img.src = url;
+    });
+  }
+
+  // Qaralama brauzerdə saxlanır (şəkillər istisna olmaqla)
+  function saveDraft() {
+    try { localStorage.setItem("menyu-draft", JSON.stringify({ ...data, photos: [] })); } catch (e) { /* yer dolubsa keçilir */ }
+  }
+
+  function loadDraft() {
+    try {
+      const d = JSON.parse(localStorage.getItem("menyu-draft") || "null");
+      if (d) {
+        Object.assign(data, d, { photos: [] });
+        $("draftNote").textContent = "Əvvəlki qaralamanız bərpa olundu.";
+        return true;
+      }
+    } catch (e) { /* pozulmuş qaralama */ }
+    return false;
+  }
+
+  function fillForm() {
+    ["name", "tagline", "phone", "address", "hours", "insta", "slug"].forEach(id => { $(id).value = data[id] || ""; });
+    if (data.brand) $("brand").value = data.brand;
+  }
+
+  const TR = { "ə": "e", "ı": "i", "ö": "o", "ü": "u", "ç": "c", "ş": "s", "ğ": "g" };
+  function siteAddress() {
+    const base = (data.slug || data.name || "menyu").toLowerCase()
+      .replace(/[əıöüçşğ]/g, c => TR[c])
+      .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    return "https://menyuaz.online/" + (base || "menyu");
+  }
+
+  function makeQR() {
+    if (typeof qrcode === "undefined") return;
+    const q = qrcode(0, "M");
+    q.addData(siteAddress());
+    q.make();
+    $("qrimg").src = q.createDataURL(6, 0);
+  }
+
+  // ---------- Yeni sahələr ----------
+  ["address", "hours", "insta", "slug"].forEach(id =>
+    $(id).addEventListener("input", e => { data[id] = e.target.value; update(); }));
+  $("brand").addEventListener("input", e => { data.brand = e.target.value; update(); });
+  $("logo").addEventListener("change", async e => {
+    const f = e.target.files[0];
+    data.logo = f ? await shrinkTo(f, 300) : "";
+    update();
+  });
+  $("vPhone").onclick = () => { $("preview").classList.add("phone"); $("vPhone").classList.add("on"); $("vWide").classList.remove("on"); };
+  $("vWide").onclick = () => { $("preview").classList.remove("phone"); $("vWide").classList.add("on"); $("vPhone").classList.remove("on"); };
+  $("qrdl").onclick = () => { const a = document.createElement("a"); a.href = $("qrimg").src; a.download = "qr-kod.gif"; a.click(); };
 
   $("dl").onclick = () => {
     const a = document.createElement("a");
@@ -491,6 +595,9 @@
     window.open(`https://wa.me/${SALES_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`, "_blank");
   });
 
+  loadDraft();
+  fillForm();
+  $("vWide").classList.add("on");
   renderPal();
   renderFonts();
   renderCats();
