@@ -21,6 +21,7 @@
   .pal { display: flex; gap: 8px; flex-wrap: wrap; }
   .pal label { display: flex; align-items: center; gap: 6px; border: 1px solid #ccc; border-radius: 6px; padding: 6px 10px; cursor: pointer; margin: 0; color: #222; }
   .pal input { width: auto; }
+  .badge { background: #2b7aa0; color: #fff; font-size: 0.62rem; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.5px; text-transform: uppercase; vertical-align: middle; }
   .thumbs img { width: 70px; height: 50px; object-fit: cover; border-radius: 4px; margin: 4px; }
 
   /* ===== Menyu redaktoru (sadə və aydın) ===== */
@@ -180,7 +181,25 @@
     { name: "Klassik",      paper: "#f7f1e8", card: "#fffdf9", ink: "#2a2520", muted: "#7a6f64", accent: "#b5452f", line: "#e2d8c8", dark: "#1d1a17" },
     { name: "Qızıl gecə",   paper: "#17140f", card: "#221d15", ink: "#f3e7cf", muted: "#a89878", accent: "#d4a83a", line: "#3a3123", dark: "#0c0a07" },
     { name: "Təbiət",       paper: "#eef3ea", card: "#f9fbf6", ink: "#1f2d22", muted: "#5f7364", accent: "#3f7d4f", line: "#d3ddcf", dark: "#15201a" },
-    { name: "Dəniz",        paper: "#eaf2f6", card: "#f8fbfd", ink: "#1b2f3a", muted: "#5d7786", accent: "#2b7aa0", line: "#cfdfe8", dark: "#102029" }
+    { name: "Dəniz",        paper: "#eaf2f6", card: "#f8fbfd", ink: "#1b2f3a", muted: "#5d7786", accent: "#2b7aa0", line: "#cfdfe8", dark: "#102029" },
+    { name: "Gül",          paper: "#fbeef0", card: "#fff8f9", ink: "#3a2025", muted: "#8a6670", accent: "#c2566b", line: "#efd3d9", dark: "#2a1419" },
+
+    // ----- Premium şablonlar (üzərində Premium etiketi) -----
+    { name: "Okean dərin",     premium: true, paper: "#e9eef5", card: "#f7f9fc", ink: "#13233a", muted: "#5a6d85", accent: "#1f4e8c", line: "#d0dbe8", dark: "#0b1626" },
+    { name: "Qum çölü",        premium: true, paper: "#f5ecd9", card: "#fbf5e8", ink: "#3b2f1e", muted: "#8a7753", accent: "#c08a3e", line: "#e6d7b8", dark: "#2b2216" },
+    { name: "Şərq xalçası",    premium: true, paper: "#f3e6e0", card: "#fcf3ef", ink: "#3d1f1a", muted: "#8f5b50", accent: "#8c2f39", line: "#e5cbc2", dark: "#241210" },
+    { name: "Lavanda",         premium: true, paper: "#efeaf7", card: "#faf8fd", ink: "#2d2640", muted: "#7a6f93", accent: "#7c5cbf", line: "#ddd4ec", dark: "#1a1628" },
+    { name: "Yay limonu",      premium: true, paper: "#fbf9dc", card: "#fffef3", ink: "#2f3310", muted: "#7b7f4a", accent: "#c9b400", line: "#ece9b5", dark: "#20230a" },
+    { name: "Şokolad",         premium: true, paper: "#2a1f1a", card: "#36281f", ink: "#f2e4d6", muted: "#b09a88", accent: "#c97d4d", line: "#4a3a2f", dark: "#150f0c" },
+    { name: "Mərcan",          premium: true, paper: "#fdeee9", card: "#fff7f4", ink: "#3b1d17", muted: "#8e6258", accent: "#e0644b", line: "#f3d2c8", dark: "#2a120d" },
+    { name: "Gecə mavisi",     premium: true, paper: "#0f1a2b", card: "#16243a", ink: "#e3ecf8", muted: "#8ea3be", accent: "#4fa3e0", line: "#243652", dark: "#080e18" },
+    { name: "Bambuk",          premium: true, paper: "#edf3e3", card: "#f8fbf1", ink: "#263318", muted: "#65744a", accent: "#7fa33a", line: "#d7e2c2", dark: "#182010" },
+    { name: "Qış",             premium: true, paper: "#eef4f8", card: "#ffffff", ink: "#1c2b36", muted: "#6b8393", accent: "#4aa3c4", line: "#d6e4ec", dark: "#0f1a22" },
+    { name: "Payız narıncısı", premium: true, paper: "#f8ebdc", card: "#fdf5ec", ink: "#3a2412", muted: "#8a6843", accent: "#d9702b", line: "#eccfb0", dark: "#26170b" },
+    { name: "Zümrüd",          premium: true, paper: "#e6f2ec", card: "#f4faf7", ink: "#133025", muted: "#4e7565", accent: "#14865e", line: "#c9e2d6", dark: "#0b1d16" },
+    { name: "Kremli minimal",  premium: true, paper: "#faf8f3", card: "#ffffff", ink: "#1a1a1a", muted: "#777066", accent: "#1a1a1a", line: "#e8e4da", dark: "#111111" },
+    { name: "Kül boz",         premium: true, paper: "#eeeeee", card: "#f9f9f9", ink: "#222222", muted: "#6e6e6e", accent: "#555555", line: "#dcdcdc", dark: "#1b1b1b" },
+    { name: "Qırmızı məxmər",  premium: true, paper: "#2b0c10", card: "#3a1219", ink: "#f7e3e3", muted: "#c49a9e", accent: "#d63a4e", line: "#5a2430", dark: "#16060a" }
   ];
 
   const FONTS = [
@@ -210,7 +229,7 @@
   // ---------- Form ----------
   function renderPal() {
     $("pal").innerHTML = PALETTES.map((p, i) =>
-      `<label><input type="radio" name="pal" value="${i}" ${i === data.pal ? "checked" : ""}> ${esc(p.name)}</label>`).join("");
+      `<label><input type="radio" name="pal" value="${i}" ${i === data.pal ? "checked" : ""}> ${esc(p.name)}${p.premium ? ' <span class="badge">Premium</span>' : ""}</label>`).join("");
   }
 
   function renderFonts() {
