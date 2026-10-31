@@ -534,7 +534,7 @@
 
   function fillForm() {
     ["name", "tagline", "phone", "address", "hours", "insta", "slug"].forEach(id => { $(id).value = data[id] || ""; });
-    if (data.brand) $("brand").value = data.brand;
+    $("brand").value = data.brand || PALETTES[data.pal].accent;
   }
 
   const TR = { "ə": "e", "ı": "i", "ö": "o", "ü": "u", "ç": "c", "ş": "s", "ğ": "g" };
