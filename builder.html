@@ -114,6 +114,11 @@
     </div>
 
     <div class="panel">
+      <h3>2b. Yazı stili</h3>
+      <div class="pal" id="fonts"></div>
+    </div>
+
+    <div class="panel">
       <h3>3. Menyu</h3>
       <p class="small" style="margin-bottom:10px">Əvvəl kateqoriya yaradın (məsələn Qəhvə), sonra həmin kateqoriyaya məhsullar əlavə edin.</p>
       <div id="cats"></div>
@@ -178,8 +183,15 @@
     { name: "Dəniz",        paper: "#eaf2f6", card: "#f8fbfd", ink: "#1b2f3a", muted: "#5d7786", accent: "#2b7aa0", line: "#cfdfe8", dark: "#102029" }
   ];
 
+  const FONTS = [
+    { name: "Klassik", css: 'Georgia, "Times New Roman", serif' },
+    { name: "Müasir",  css: 'system-ui, Arial, sans-serif' },
+    { name: "Zərif",   css: '"Palatino Linotype", Palatino, serif' },
+    { name: "Maşın",   css: '"Courier New", monospace' }
+  ];
+
   const data = {
-    name: "", tagline: "", phone: "", pal: 0,
+    name: "", tagline: "", phone: "", pal: 0, font: 0,
     cats: [
       { name: "Qəhvə", items: [
         { name: "Espresso", desc: "Qısa, güclü", price: "2.50" },
@@ -199,6 +211,11 @@
   function renderPal() {
     $("pal").innerHTML = PALETTES.map((p, i) =>
       `<label><input type="radio" name="pal" value="${i}" ${i === data.pal ? "checked" : ""}> ${esc(p.name)}</label>`).join("");
+  }
+
+  function renderFonts() {
+    $("fonts").innerHTML = FONTS.map((f, i) =>
+      `<label><input type="radio" name="font" value="${i}" ${i === data.font ? "checked" : ""}> ${esc(f.name)}</label>`).join("");
   }
 
   function renderCats() {
@@ -232,6 +249,7 @@
   }
 
   $("pal").addEventListener("change", e => { data.pal = +e.target.value; update(); });
+  $("fonts").addEventListener("change", e => { data.font = +e.target.value; update(); });
 
   $("cats").addEventListener("input", e => {
     const el = e.target;
@@ -323,7 +341,7 @@
 <style>
   :root { --paper:${p.paper}; --card:${p.card}; --ink:${p.ink}; --muted:${p.muted}; --accent:${p.accent}; --line:${p.line}; --dark:${p.dark}; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Georgia, "Times New Roman", serif; background: var(--paper); color: var(--ink); line-height: 1.5; }
+  body { font-family: ${FONTS[data.font].css}; background: var(--paper); color: var(--ink); line-height: 1.5; }
   .hero { position: relative; min-height: 68vh; display: flex; align-items: center; justify-content: center; text-align: center; color: #fff; overflow: hidden; background: var(--dark); }
   .slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 1.6s ease-in-out; }
   .slide.active { opacity: 1; }
@@ -402,6 +420,7 @@
   });
 
   renderPal();
+  renderFonts();
   renderCats();
   update();
   loadDefaults();
