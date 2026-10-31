@@ -35,6 +35,9 @@
   .rec { font-size: 0.62rem; color: #3f7d4f; text-transform: uppercase; letter-spacing: 0.5px; font-weight: bold; }
   .badge { background: #2b7aa0; color: #fff; font-size: 0.62rem; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.5px; text-transform: uppercase; vertical-align: middle; }
   .thumbs img { width: 70px; height: 50px; object-fit: cover; border-radius: 4px; margin: 4px; }
+  .h3row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .h3row h3 { margin: 0; }
+  .mini { padding: 4px 10px; font-size: 0.8rem; }
 
   /* ===== Menyu redaktoru (sadə və aydın) ===== */
   .cat { border: 1px solid #e0e7ff; border-radius: 12px; padding: 12px; margin-bottom: 14px; background: linear-gradient(180deg, #f5f3ff, #fdf4ff); }
@@ -174,7 +177,7 @@
 <div class="wrap">
   <div class="left">
     <div class="panel">
-      <h3>1. Restoran</h3>
+      <div class="h3row"><h3>1. Restoran</h3><button id="resetR" class="mini">Sıfırla</button></div>
       <label>Restoranın adı</label>
       <input id="name" placeholder="Məsələn: Gülüstan Kafe">
       <label>Slogan (qısa cümlə)</label>
@@ -593,6 +596,17 @@
   $("vPhone").onclick = () => { $("preview").classList.add("phone"); $("vPhone").classList.add("on"); $("vWide").classList.remove("on"); };
   $("vWide").onclick = () => { $("preview").classList.remove("phone"); $("vWide").classList.add("on"); $("vPhone").classList.remove("on"); };
   $("qrdl").onclick = () => { const a = document.createElement("a"); a.href = $("qrimg").src; a.download = "qr-kod.gif"; a.click(); };
+
+  // ---------- Restoran parametrlərini sıfırla ----------
+  $("resetR").onclick = () => {
+    ["name", "tagline", "phone", "address", "hours", "insta", "slug"].forEach(k => { data[k] = ""; });
+    data.logo = "";
+    data.brand = "";
+    $("logo").value = "";
+    fillForm();
+    $("draftNote").textContent = "Restoran məlumatları sıfırlandı.";
+    update();
+  };
 
   // ---------- Sıfırlama ----------
   function defaultData() {
