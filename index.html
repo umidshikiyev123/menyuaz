@@ -3,7 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MenyuAZ</title>
+  <title>MenyuAZ – Restoran və kafe üçün QR menyu saytı</title>
+  <meta name="description" content="Restoran və kafeniz üçün QR menyu saytını 5 dəqiqəyə yaradın. Standart 24 AZN, Premium 48 AZN (3 ay üçün).">
+  <meta property="og:title" content="MenyuAZ – QR menyu saytı">
+  <meta property="og:description" content="Restoran və kafeniz üçün QR menyu saytını 5 dəqiqəyə yaradın.">
+  <meta property="og:image" content="https://menyuaz.online/images/logo-icon.png">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="images/logo-icon.png" type="image/png">
   <style>
     :root {
       --dark: #1d1a17;
@@ -52,10 +58,16 @@
       z-index: 1;
     }
     .hero-content { position: relative; z-index: 2; padding: 20px; }
-    .hero h1 {
-      font-size: clamp(2.4rem, 6vw, 4.2rem);
-      letter-spacing: 1px;
-      font-weight: normal;
+    .hero h1 { margin: 0; }
+    .hero-logo {
+      display: block;
+      width: clamp(220px, 40vw, 380px);
+      height: auto;
+      margin: 0 auto;
+      padding: 16px 24px;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
     }
     .hero p {
       margin-top: 10px;
@@ -198,7 +210,7 @@
   <div class="slide" style="background-image:url('images/bg4.avif')"></div>
   <div class="slide" style="background-image:url('images/bg5.avif')"></div>
   <div class="hero-content">
-    <h1 id="shopName">MenyuAZ</h1>
+    <h1 id="shopName"><img class="hero-logo" src="images/logo-horizontal.png" alt="MenyuAZ"></h1>
     <p id="tagline"></p>
   </div>
   <span class="scroll-hint">AŞAĞI</span>
@@ -225,7 +237,7 @@
     <div class="feature"><strong id="f3t"></strong><span id="f3s"></span></div>
     <div class="feature"><strong id="f4t"></strong><span id="f4s"></span></div>
   </div>
-  <a class="contact-link" id="ctaBtn" href="https://wa.me/994991295237" target="_blank" rel="noopener"></a>
+  <a class="contact-link" id="ctaBtn" href="https://wa.me/994991295237?text=Salam%2C%20MenyuAZ%20sayt%20sifari%C5%9Fi%20haqq%C4%B1nda%20yazmaq%20ist%C9%99yir%C9%99m." target="_blank" rel="noopener"></a>
 </section>
 
 <footer id="footer"></footer>
@@ -239,7 +251,7 @@
   const shop = {
     name: { az: "MenyuAZ", en: "MenyuAZ" },
     tagline: { az: "", en: "" },
-    footer: { az: "Qiymətlər AZN ilə göstərilir", en: "Prices in AZN" },
+    footer: { az: "© 2026 MenyuAZ", en: "© 2026 MenyuAZ" },
     placeholder: {
       title: { az: "Menyunuz burada görünəcək", en: "Your menu will appear here" },
       text: {
@@ -264,7 +276,6 @@
   }
 
   function render() {
-    document.getElementById("shopName").textContent = t(shop.name);
     document.getElementById("tagline").textContent = t(shop.tagline);
     document.getElementById("footer").textContent = t(shop.footer);
     document.getElementById("phTitle").textContent = t(shop.placeholder.title);
@@ -275,7 +286,7 @@
       document.getElementById("f" + (i + 1) + "s").textContent = t(f.s);
     });
     document.getElementById("ctaBtn").textContent = t(shop.contact);
-    document.getElementById("ctaBtn").href = "https://wa.me/" + whatsappNumber;
+    document.getElementById("ctaBtn").href = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent("Salam, MenyuAZ sayt sifarişi haqqında yazmaq istəyirəm.");
     document.title = "MenyuAZ";
     document.documentElement.lang = currentLang;
 
