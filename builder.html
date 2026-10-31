@@ -5,18 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Menyu yaradın</title>
 <style>
+  @property --a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
   * { box-sizing: border-box; }
   body { margin: 0; font-family: system-ui, Arial, sans-serif; background: #f2f2ef; color: #222; }
   header { background: #1d1a17; color: #fff; padding: 16px 24px; font-family: Georgia, serif; font-size: 1.3rem; }
-  .wrap { display: grid; grid-template-columns: minmax(320px, 440px) 1fr; gap: 20px; padding: 20px; max-width: 1400px; margin: 0 auto; align-items: start; }
+  .wrap { display: grid; grid-template-columns: minmax(320px, 460px) 1fr; gap: 20px; padding: 20px; max-width: 1400px; margin: 0 auto; align-items: start; }
   .left { position: sticky; top: 16px; }
   .panel { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 18px; margin-bottom: 14px; }
-  h3 { margin: 0 0 10px; font-size: 0.9rem; color: #555; text-transform: uppercase; letter-spacing: 1px; }
-  label { display: block; font-size: 0.85rem; color: #555; margin: 8px 0 3px; }
-  input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font: inherit; }
-  .row { display: flex; gap: 6px; }
-  .row input { flex: 1; }
-  .item { border: 1px dashed #ccc; border-radius: 6px; padding: 8px; margin: 8px 0; }
+  h3 { margin: 0 0 12px; font-size: 0.9rem; color: #555; text-transform: uppercase; letter-spacing: 1px; }
+  label { display: block; font-size: 0.82rem; color: #666; margin: 8px 0 4px; }
+  input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font: inherit; background: #fff; }
   button { font: inherit; cursor: pointer; border: 1px solid #bbb; background: #fff; padding: 7px 12px; border-radius: 5px; }
   button.primary { background: #b5452f; color: #fff; border-color: #b5452f; }
   .small { font-size: 0.8rem; color: #777; }
@@ -25,23 +23,43 @@
   .pal input { width: auto; }
   .thumbs img { width: 70px; height: 50px; object-fit: cover; border-radius: 4px; margin: 4px; }
 
-  /* ===== Paketlər ===== */
-  .pkgs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .pkg { position: relative; isolation: isolate; border-radius: 12px; padding: 14px; cursor: pointer; text-align: center; transition: transform 0.2s; }
-  .pkg:hover { transform: translateY(-2px); }
-  .pkg > * { position: relative; }
-  .pkg::before { content: ""; position: absolute; inset: 0; border-radius: 12px; z-index: -2; background: conic-gradient(#ff5e62, #ffb347, #ffe259, #4cd964, #5ac8fa, #af52de, #ff5e62); opacity: 0; transition: opacity 0.3s; animation: spin 3s linear infinite; }
-  .pkg::after { content: ""; position: absolute; inset: 3px; border-radius: 10px; z-index: -1; background: #f5f5f3; }
-  .pkg:hover::before, .pkg.open::before { opacity: 1; }
-  @keyframes spin { to { transform: rotate(360deg); } }
+  /* ===== Menyu redaktoru (sadə və aydın) ===== */
+  .cat { border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 14px; background: #fafaf8; }
+  .cat-top { display: flex; gap: 8px; align-items: flex-end; }
+  .cat-top > div { flex: 1; }
+  .cat-top label { margin-top: 0; }
+  .prod { background: #fff; border: 1px solid #e5e5e5; border-radius: 6px; padding: 10px; margin-top: 10px; }
+  .prod-top { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+  .two { display: grid; grid-template-columns: 110px 1fr; gap: 8px; }
+  .two label { margin-top: 4px; }
+  .del { color: #b5452f; border-color: #e0b5aa; padding: 5px 10px; font-size: 0.8rem; }
+  .add { width: 100%; margin-top: 10px; border-style: dashed; color: #555; }
+  .addcat { width: 100%; padding: 10px; border-style: dashed; }
 
-  .pkg.premium::before { opacity: 1; background: #2b7aa0; animation: none; }
-  .pkg.premium:hover::before, .pkg.premium.open::before { background: conic-gradient(#ff5e62, #ffb347, #ffe259, #4cd964, #5ac8fa, #af52de, #ff5e62); animation: spin 3s linear infinite; }
-  .pkg.premium::after { background: linear-gradient(135deg, #eaf6ff, #cfe9fb); }
-  .pkg.premium { animation: glow 2.2s ease-in-out infinite; }
+  /* ===== Paketlər: yalnız kənar xətt rəngli və fırlanan olur ===== */
+  .pkgs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pkg {
+    --bg: #f5f5f3; --edge: #d9d9d4;
+    border: 3px solid transparent;
+    border-radius: 12px;
+    padding: 14px;
+    cursor: pointer;
+    text-align: center;
+    background: linear-gradient(var(--bg), var(--bg)) padding-box, linear-gradient(var(--edge), var(--edge)) border-box;
+  }
+  .pkg.premium {
+    --bg: #e6f3fb; --edge: #2b7aa0;
+    animation: glow 2.2s ease-in-out infinite;
+  }
+  .pkg:hover, .pkg.open {
+    background: linear-gradient(var(--bg), var(--bg)) padding-box,
+                conic-gradient(from var(--a), #ff5e62, #ffb347, #ffe259, #4cd964, #5ac8fa, #af52de, #ff5e62) border-box;
+    animation: spin 3s linear infinite;
+  }
+  @keyframes spin { to { --a: 360deg; } }
   @keyframes glow {
     0%, 100% { box-shadow: 0 0 6px rgba(43,122,160,0.3); }
-    50%      { box-shadow: 0 0 24px rgba(43,122,160,0.9); }
+    50%      { box-shadow: 0 0 22px rgba(43,122,160,0.85); }
   }
   .pkg-head b { font-size: 1.5rem; display: block; }
   .pkg-head span { color: #666; font-size: 0.9rem; }
@@ -51,6 +69,7 @@
   .pkg:hover .info, .pkg.open .info { max-height: 320px; opacity: 1; margin-top: 12px; }
   .info ul { padding-left: 18px; margin-bottom: 10px; line-height: 1.8; }
   .info .order { width: 100%; }
+
   iframe { width: 100%; height: 88vh; border: 1px solid #ccc; border-radius: 8px; background: #fff; }
   @media (max-width: 900px) { .wrap { grid-template-columns: 1fr; } .left { position: static; } iframe { height: 70vh; } }
 </style>
@@ -62,9 +81,9 @@
   <div class="left">
     <div class="panel">
       <h3>1. Restoran</h3>
-      <label>Adı</label>
+      <label>Restoranın adı</label>
       <input id="name" placeholder="Məsələn: Gülüstan Kafe">
-      <label>Slogan</label>
+      <label>Slogan (qısa cümlə)</label>
       <input id="tagline" placeholder="Məsələn: Ən təzə dadlar">
       <label>WhatsApp nömrəsi (994 ilə, boşluqsuz)</label>
       <input id="phone" placeholder="994501234567">
@@ -77,8 +96,9 @@
 
     <div class="panel">
       <h3>3. Menyu</h3>
+      <p class="small" style="margin-bottom:10px">Əvvəl kateqoriya yaradın (məsələn Qəhvə), sonra həmin kateqoriyaya məhsullar əlavə edin.</p>
       <div id="cats"></div>
-      <button id="addCat">+ Kateqoriya əlavə et</button>
+      <button class="addcat" id="addCat">+ Yeni kateqoriya</button>
     </div>
 
     <div class="panel">
@@ -92,20 +112,20 @@
       <h3>5. Paket</h3>
       <div class="pkgs">
         <div class="pkg standard" data-card="standart">
-          <div class="pkg-head"><b>24 AZN</b><span>/ay · Standart</span></div>
+          <div class="pkg-head"><b>24 AZN</b><span>/ 3 ay · Standart</span></div>
           <div class="info">
             <ul>
               <li>1 şablon (rəng palitrası)</li>
-              <li>30 məhsula qədər menyu</li>
+              <li>124 məhsula qədər menyu</li>
               <li>5 şəkil</li>
-              <li>Ayda 1 dəyişiklik</li>
+              <li>3 ayda 1 dəyişiklik</li>
               <li>WhatsApp dəstəyi</li>
             </ul>
-            <button class="primary order" data-order="Standart 24 AZN">Sifariş et</button>
+            <button class="primary order" data-order="Standart 24 AZN / 3 ay">Sifariş et</button>
           </div>
         </div>
         <div class="pkg premium" data-card="premium">
-          <div class="pkg-head"><b>48 AZN</b><span>/ay · Premium</span></div>
+          <div class="pkg-head"><b>48 AZN</b><span>/ 3 ay · Premium</span></div>
           <div class="info">
             <ul>
               <li>Bütün şablonlar</li>
@@ -115,7 +135,7 @@
               <li>Öz domeniniz</li>
               <li>Prioritet dəstək</li>
             </ul>
-            <button class="primary order" data-order="Premium 48 AZN">Sifariş et</button>
+            <button class="primary order" data-order="Premium 48 AZN / 3 ay">Sifariş et</button>
           </div>
         </div>
       </div>
@@ -163,16 +183,31 @@
 
   function renderCats() {
     $("cats").innerHTML = data.cats.map((c, ci) => `
-      <div class="item">
-        <div class="row"><input data-cat="${ci}" value="${esc(c.name)}" placeholder="Kateqoriya adı"><button data-delcat="${ci}">✕</button></div>
-        ${c.items.map((it, ii) => `
-          <div class="row" style="margin-top:6px">
-            <input data-ci="${ci}" data-ii="${ii}" data-f="name" value="${esc(it.name)}" placeholder="Məhsul">
-            <input data-ci="${ci}" data-ii="${ii}" data-f="price" value="${esc(it.price)}" placeholder="Qiymət" style="max-width:85px">
-            <button data-delit="${ci}:${ii}">✕</button>
+      <div class="cat">
+        <div class="cat-top">
+          <div>
+            <label>Kateqoriya adı</label>
+            <input data-cat="${ci}" value="${esc(c.name)}" placeholder="Məsələn: Qəhvə">
           </div>
-          <input data-ci="${ci}" data-ii="${ii}" data-f="desc" value="${esc(it.desc)}" placeholder="Qısa təsvir" style="margin-top:4px">`).join("")}
-        <button class="small" data-additem="${ci}" style="margin-top:8px">+ Məhsul</button>
+          <button class="del" data-delcat="${ci}">Kateqoriyanı sil</button>
+        </div>
+        ${c.items.map((it, ii) => `
+          <div class="prod">
+            <div class="prod-top"><span>Məhsul ${ii + 1}</span><button class="del" data-delit="${ci}:${ii}">Sil</button></div>
+            <label>Məhsulun adı</label>
+            <input data-ci="${ci}" data-ii="${ii}" data-f="name" value="${esc(it.name)}" placeholder="Məsələn: Espresso">
+            <div class="two">
+              <div>
+                <label>Qiymət (₼)</label>
+                <input data-ci="${ci}" data-ii="${ii}" data-f="price" value="${esc(it.price)}" placeholder="2.50">
+              </div>
+              <div>
+                <label>Təsvir (istəyə görə)</label>
+                <input data-ci="${ci}" data-ii="${ii}" data-f="desc" value="${esc(it.desc)}" placeholder="Məsələn: Qısa, güclü">
+              </div>
+            </div>
+          </div>`).join("")}
+        <button class="add" data-additem="${ci}">+ Bu kateqoriyaya məhsul əlavə et</button>
       </div>`).join("");
   }
 
@@ -324,7 +359,7 @@
     a.click();
   };
 
-  // ---------- Paketlər: üzərinə basanda / gətiriləndə məlumat açılır ----------
+  // ---------- Paketlər: üzərinə gətiriləndə və ya basanda məlumat açılır ----------
   document.querySelectorAll(".pkg").forEach(card => card.addEventListener("click", e => {
     if (e.target.closest("[data-order]")) return;
     card.classList.toggle("open");
