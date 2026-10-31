@@ -251,7 +251,7 @@
   // ---------- Form ----------
   function renderPal() {
     $("pal").innerHTML = PALETTES.map((p, i) =>
-      `<label><input type="radio" name="pal" value="${i}" ${i === data.pal ? "checked" : ""}<span class="sw" title="${esc(p.name)}" style="background:linear-gradient(135deg, ${p.paper} 50%, ${p.accent} 50%)"></span>${p.premium ? ' <span class="badge">Premium</span>' : ""}</label>`).join("");
+      `<label class="pt" title="${esc(p.name)}" style="--l:${p.paper};--r:${p.accent}"><input type="radio" name="pal" value="${i}" ${i === data.pal ? "checked" : ""}>${p.premium ? ' <span class="badge">Premium</span>' : ""}</label>`).join("");
   }
 
   function renderFonts() {
