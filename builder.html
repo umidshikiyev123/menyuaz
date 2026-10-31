@@ -168,6 +168,22 @@
   .vbar button.on { background: #b5452f; color: #fff; border: none; }
   .badge { background: #b5452f; }
   .qrbox img { background: #fff; border: 1px solid #e2d8c8; }
+
+  /* Paket mətnləri: qara və oxunaqlı */
+  .pkg .info { background: rgba(255,255,255,0.94); border-radius: 8px; padding: 0 10px; color: #111; opacity: 1; }
+  .pkgs:hover .info, .pkgs.open .info { padding: 10px; }
+  .pkg .info ul, .pkg .info li { color: #111; font-weight: 500; }
+  .pkg-head b { color: #111; }
+  .pkg-head span { color: #333; }
+  .pkg.premium .pkg-head span { color: #b5452f; font-weight: bold; }
+
+  /* Premium: kənar və parıltı ana rənglə (qırmızı) */
+  .pkg.premium { border: 1px solid #b5452f; box-shadow: 0 0 10px rgba(181,69,47,0.3); animation: glowR 2.2s ease-in-out infinite; }
+  @keyframes glowR {
+    0%, 100% { box-shadow: 0 0 6px rgba(181,69,47,0.25); }
+    50%      { box-shadow: 0 0 22px rgba(181,69,47,0.7); }
+  }
+  .pkg.premium:hover, .pkg.premium.open { animation: tremble 0.5s ease-in-out infinite, glowR 2.2s ease-in-out infinite; }
   @media (max-width: 900px) { .wrap { grid-template-columns: 1fr; } .right { position: static; height: 70vh; } }
 </style>
 </head>
