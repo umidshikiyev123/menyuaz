@@ -8,6 +8,7 @@
     :root {
       --dark: #1d1a17;
       --paper: #f7f1e8;
+      --card: #fffdf9;
       --ink: #2a2520;
       --muted: #7a6f64;
       --accent: #b5452f;
@@ -20,12 +21,13 @@
       background: var(--paper);
       color: var(--ink);
       line-height: 1.5;
+      transition: background 0.5s ease, color 0.5s ease;
     }
 
-    /* ===== Hero: fade ilə dəyişən arxa plan şəkilləri ===== */
+    /* ===== Hero: fade ilə dəyişən arxa plan şəkilləri (üfüqi, geniş) ===== */
     .hero {
       position: relative;
-      min-height: 62vh;
+      min-height: 68vh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -47,7 +49,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(rgba(20,16,12,0.5), rgba(20,16,12,0.78));
+      background: linear-gradient(rgba(20,16,12,0.45), rgba(20,16,12,0.8));
       z-index: 1;
     }
     .hero-content {
@@ -56,13 +58,13 @@
       padding: 20px;
     }
     .hero h1 {
-      font-size: clamp(2.2rem, 6vw, 3.6rem);
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
       letter-spacing: 1px;
       font-weight: normal;
     }
     .hero p {
       margin-top: 10px;
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       opacity: 0.85;
       font-style: italic;
     }
@@ -77,19 +79,19 @@
       z-index: 2;
     }
 
-    /* ===== Menyu kartı ===== */
+    /* ===== Menyu kartı (geniş, kateqoriyalar yan-yana) ===== */
     .menu-wrap {
-      max-width: 680px;
-      margin: -60px auto 0;
-      padding: 0 16px 40px;
+      max-width: 1100px;
+      margin: -70px auto 0;
+      padding: 0 24px 50px;
       position: relative;
       z-index: 3;
     }
     .menu-card {
-      background: #fffdf9;
+      background: var(--card);
       border: 1px solid var(--line);
       border-radius: 6px;
-      padding: 36px 28px;
+      padding: 36px 36px;
       box-shadow: 0 12px 40px rgba(0,0,0,0.12);
     }
 
@@ -97,7 +99,7 @@
       display: flex;
       justify-content: center;
       gap: 8px;
-      margin-bottom: 18px;
+      margin-bottom: 22px;
     }
     .lang-switch button {
       background: none;
@@ -115,11 +117,14 @@
       border-color: var(--ink);
     }
 
-    .category { margin-top: 30px; }
-    .category:first-of-type { margin-top: 0; }
+    #menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 36px 48px;
+    }
     .category-title {
       text-align: center;
-      font-size: 1.35rem;
+      font-size: 1.3rem;
       letter-spacing: 3px;
       text-transform: uppercase;
       color: var(--accent);
@@ -152,17 +157,17 @@
 
     /* ===== Öz menyunu yarat bölməsi ===== */
     .cta {
-      max-width: 680px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 40px 24px;
+      padding: 40px 24px 20px;
       text-align: center;
     }
     .cta h2 {
-      font-size: 1.6rem;
+      font-size: 1.7rem;
       font-weight: normal;
       margin-bottom: 10px;
     }
-    .cta p {
+    .cta > p {
       color: var(--muted);
       margin-bottom: 20px;
     }
@@ -177,15 +182,53 @@
       letter-spacing: 1px;
     }
     .cta-btn:hover { opacity: 0.9; }
+
+    /* Hazır şablonlar: rəng palitraları */
+    .templates-title {
+      margin: 34px 0 14px;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .templates {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 14px;
+    }
+    .template {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 16px;
+      text-align: left;
+      cursor: pointer;
+      font-family: inherit;
+      color: var(--ink);
+    }
+    .template.active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) inset; }
+    .template strong {
+      display: block;
+      font-weight: normal;
+      margin-bottom: 10px;
+    }
+    .swatches { display: flex; gap: 6px; }
+    .swatches span {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.12);
+    }
+
     .features {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 14px;
       margin: 28px 0 10px;
       text-align: left;
     }
     .feature {
-      background: #fffdf9;
+      background: var(--card);
       border: 1px solid var(--line);
       border-radius: 6px;
       padding: 16px;
@@ -205,7 +248,7 @@
       text-align: center;
       color: var(--muted);
       font-size: 0.85rem;
-      padding: 0 16px 40px;
+      padding: 30px 16px 40px;
     }
 
     /* ===== Aşağıdan yuxarı görünmə ===== */
@@ -248,6 +291,10 @@
 <section class="cta reveal" id="cta">
   <h2 id="ctaTitle">Öz menyunuzu yaradın</h2>
   <p id="ctaText">Kafe və ya restoranınız üçün QR menyu saytı qurun. Qiymətləri və məhsulları istədiyiniz vaxt dəyişə bilərsiniz.</p>
+
+  <div class="templates-title" id="tplTitle">Hazır şablonlar</div>
+  <div class="templates" id="templates"></div>
+
   <div class="features">
     <div class="feature"><strong>Hazır şablon</strong><span>Sadə, real görünən dizaynla başlayın.</span></div>
     <div class="feature"><strong>Öz məhsullarınız</strong><span>Menyunu özünüz doldurun və yeniləyin.</span></div>
@@ -275,7 +322,8 @@
         az: "Kafe və ya restoranınız üçün QR menyu saytı qurun. Qiymətləri və məhsulları istədiyiniz vaxt dəyişə bilərsiniz.",
         en: "Build a QR menu site for your cafe or restaurant. Change prices and items whenever you want."
       },
-      button: { az: "Əlaqə saxla", en: "Contact us" }
+      button: { az: "Əlaqə saxla", en: "Contact us" },
+      templates: { az: "Hazır şablonlar", en: "Ready-made themes" }
     }
   };
 
@@ -301,12 +349,69 @@
       ]
     }
   ];
+
+  // Hazır rəng palitraları (şablonlar)
+  const templates = [
+    {
+      name: { az: "Klassik", en: "Classic" },
+      colors: { paper: "#f7f1e8", card: "#fffdf9", ink: "#2a2520", muted: "#7a6f64", accent: "#b5452f", line: "#e2d8c8", dark: "#1d1a17" }
+    },
+    {
+      name: { az: "Qızıl gecə", en: "Golden night" },
+      colors: { paper: "#17140f", card: "#221d15", ink: "#f3e7cf", muted: "#a89878", accent: "#d4a83a", line: "#3a3123", dark: "#0c0a07" }
+    },
+    {
+      name: { az: "Təbiət", en: "Nature" },
+      colors: { paper: "#eef3ea", card: "#f9fbf6", ink: "#1f2d22", muted: "#5f7364", accent: "#3f7d4f", line: "#d3ddcf", dark: "#15201a" }
+    },
+    {
+      name: { az: "Dəniz", en: "Sea" },
+      colors: { paper: "#eaf2f6", card: "#f8fbfd", ink: "#1b2f3a", muted: "#5d7786", accent: "#2b7aa0", line: "#cfdfe8", dark: "#102029" }
+    }
+  ];
   // ===================================================
 
   let currentLang = "az";
+  let currentTemplate = 0;
 
   function t(obj) {
     return obj[currentLang] || obj.az;
+  }
+
+  function applyTemplate(index) {
+    currentTemplate = index;
+    const c = templates[index].colors;
+    const root = document.documentElement.style;
+    root.setProperty("--paper", c.paper);
+    root.setProperty("--card", c.card);
+    root.setProperty("--ink", c.ink);
+    root.setProperty("--muted", c.muted);
+    root.setProperty("--accent", c.accent);
+    root.setProperty("--line", c.line);
+    root.setProperty("--dark", c.dark);
+    document.querySelectorAll(".template").forEach((el, i) => {
+      el.classList.toggle("active", i === index);
+    });
+  }
+
+  function renderTemplates() {
+    const wrap = document.getElementById("templates");
+    wrap.innerHTML = "";
+    templates.forEach((tpl, i) => {
+      const btn = document.createElement("button");
+      btn.className = "template";
+      btn.innerHTML = `<strong></strong><div class="swatches"></div>`;
+      btn.querySelector("strong").textContent = t(tpl.name);
+      const sw = btn.querySelector(".swatches");
+      [tpl.colors.paper, tpl.colors.accent, tpl.colors.ink].forEach(col => {
+        const s = document.createElement("span");
+        s.style.background = col;
+        sw.appendChild(s);
+      });
+      btn.addEventListener("click", () => applyTemplate(i));
+      wrap.appendChild(btn);
+    });
+    applyTemplate(currentTemplate);
   }
 
   function render() {
@@ -315,6 +420,7 @@
     document.getElementById("footer").textContent = t(shop.footer);
     document.getElementById("ctaTitle").textContent = t(shop.cta.title);
     document.getElementById("ctaText").textContent = t(shop.cta.text);
+    document.getElementById("tplTitle").textContent = t(shop.cta.templates);
     document.getElementById("ctaBtn").textContent = t(shop.cta.button);
     document.getElementById("ctaBtn").href = "https://wa.me/" + whatsappNumber;
     document.title = t(shop.name);
@@ -352,6 +458,8 @@
     document.querySelectorAll(".lang-switch button").forEach(b => {
       b.classList.toggle("active", b.dataset.lang === currentLang);
     });
+
+    renderTemplates();
   }
 
   document.querySelectorAll(".lang-switch button").forEach(btn => {
