@@ -141,7 +141,7 @@
 </style>
 </head>
 <body>
-<header>Menyu yaradın</header>
+<header>Menyu yaradın <button id="reset" style="float:right;font-size:0.85rem;padding:6px 12px">Hamısını sıfırla</button></header>
 
 <div class="wrap">
   <div class="left">
@@ -565,6 +565,31 @@
   $("vPhone").onclick = () => { $("preview").classList.add("phone"); $("vPhone").classList.add("on"); $("vWide").classList.remove("on"); };
   $("vWide").onclick = () => { $("preview").classList.remove("phone"); $("vWide").classList.add("on"); $("vPhone").classList.remove("on"); };
   $("qrdl").onclick = () => { const a = document.createElement("a"); a.href = $("qrimg").src; a.download = "qr-kod.gif"; a.click(); };
+
+  // ---------- Sıfırlama ----------
+  function defaultData() {
+    return {
+      name: "", tagline: "", phone: "", pal: 0, font: 0,
+      address: "", hours: "", insta: "", slug: "", logo: "", brand: "",
+      cats: [{ name: "", items: [{ name: "", desc: "", price: "" }] }],
+      photos: []
+    };
+  }
+
+  $("reset").onclick = () => {
+    if (!confirm("Bütün məlumatlar silinsin və hər şey sıfırlansın?")) return;
+    localStorage.removeItem("menyu-draft");
+    Object.assign(data, defaultData());
+    $("logo").value = "";
+    $("photos").value = "";
+    $("thumbs").innerHTML = "";
+    $("draftNote").textContent = "Hər şey sıfırlandı.";
+    fillForm();
+    renderPal();
+    renderFonts();
+    renderCats();
+    update();
+  };
 
   $("dl").onclick = () => {
     const a = document.createElement("a");
