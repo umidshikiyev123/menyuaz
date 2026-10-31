@@ -85,7 +85,7 @@
   .pkg.premium .pkg-head span { color: #1d5878; font-weight: bold; }
 
   .info { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.45s ease, opacity 0.3s ease, margin-top 0.3s; text-align: left; font-size: 0.9rem; }
-  .pkg:hover .info, .pkg.open .info { max-height: 320px; opacity: 1; margin-top: 12px; }
+  .pkgs:hover .info, .pkgs.open .info { max-height: 320px; opacity: 1; margin-top: 12px; }
   .info ul { padding-left: 18px; margin-bottom: 10px; line-height: 1.8; }
   .info .order { width: 100%; }
 
@@ -381,7 +381,7 @@
   // ---------- Paketlər: üzərinə gətiriləndə və ya basanda məlumat açılır ----------
   document.querySelectorAll(".pkg").forEach(card => card.addEventListener("click", e => {
     if (e.target.closest("[data-order]")) return;
-    card.classList.toggle("open");
+    card.closest(".pkgs").classList.toggle("open");
   }));
 
   // ---------- Sifariş (WhatsApp) ----------
