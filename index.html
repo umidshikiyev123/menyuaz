@@ -198,8 +198,8 @@
   <div class="slide" style="background-image:url('images/bg4.avif')"></div>
   <div class="slide" style="background-image:url('images/bg5.avif')"></div>
   <div class="hero-content">
-    <h1 id="shopName">Restoran Adı</h1>
-    <p id="tagline">MenyuAZ</p>
+    <h1 id="shopName">MenyuAZ</h1>
+    <p id="tagline"></p>
   </div>
   <span class="scroll-hint">AŞAĞI</span>
 </section>
@@ -237,8 +237,8 @@
   const whatsappNumber = "994991295237";
 
   const shop = {
-    name: { az: "Restoran Adı", en: "Restaurant Name" },
-    tagline: { az: "MenyuAZ", en: "MenyuAZ" },
+    name: { az: "MenyuAZ", en: "MenyuAZ" },
+    tagline: { az: "", en: "" },
     footer: { az: "Qiymətlər AZN ilə göstərilir", en: "Prices in AZN" },
     placeholder: {
       title: { az: "Menyunuz burada görünəcək", en: "Your menu will appear here" },
@@ -276,7 +276,7 @@
     });
     document.getElementById("ctaBtn").textContent = t(shop.contact);
     document.getElementById("ctaBtn").href = "https://wa.me/" + whatsappNumber;
-    document.title = t(shop.name) + " — MenyuAZ";
+    document.title = "MenyuAZ";
     document.documentElement.lang = currentLang;
 
     document.querySelectorAll(".lang-switch button").forEach(b => {
