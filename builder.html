@@ -9,6 +9,7 @@
   body { margin: 0; font-family: system-ui, Arial, sans-serif; background: #f2f2ef; color: #222; }
   header { background: #1d1a17; color: #fff; padding: 16px 24px; font-family: Georgia, serif; font-size: 1.3rem; }
   .wrap { display: grid; grid-template-columns: minmax(320px, 440px) 1fr; gap: 20px; padding: 20px; max-width: 1400px; margin: 0 auto; align-items: start; }
+  .left { position: sticky; top: 16px; }
   .panel { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 18px; margin-bottom: 14px; }
   h3 { margin: 0 0 10px; font-size: 0.9rem; color: #555; text-transform: uppercase; letter-spacing: 1px; }
   label { display: block; font-size: 0.85rem; color: #555; margin: 8px 0 3px; }
@@ -23,18 +24,42 @@
   .pal label { display: flex; align-items: center; gap: 6px; border: 1px solid #ccc; border-radius: 6px; padding: 6px 10px; cursor: pointer; margin: 0; color: #222; }
   .pal input { width: auto; }
   .thumbs img { width: 70px; height: 50px; object-fit: cover; border-radius: 4px; margin: 4px; }
-  .pkgs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .pkg { border: 1px solid #ccc; border-radius: 8px; padding: 14px; text-align: center; }
-  .pkg b { font-size: 1.4rem; display: block; }
+
+  /* ===== Paketlər ===== */
+  .pkgs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pkg { position: relative; isolation: isolate; border-radius: 12px; padding: 14px; cursor: pointer; text-align: center; transition: transform 0.2s; }
+  .pkg:hover { transform: translateY(-2px); }
+  .pkg > * { position: relative; }
+  .pkg::before { content: ""; position: absolute; inset: 0; border-radius: 12px; z-index: -2; background: conic-gradient(#ff5e62, #ffb347, #ffe259, #4cd964, #5ac8fa, #af52de, #ff5e62); opacity: 0; transition: opacity 0.3s; animation: spin 3s linear infinite; }
+  .pkg::after { content: ""; position: absolute; inset: 3px; border-radius: 10px; z-index: -1; background: #f5f5f3; }
+  .pkg:hover::before, .pkg.open::before { opacity: 1; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .pkg.premium::before { opacity: 1; background: #2b7aa0; animation: none; }
+  .pkg.premium:hover::before, .pkg.premium.open::before { background: conic-gradient(#ff5e62, #ffb347, #ffe259, #4cd964, #5ac8fa, #af52de, #ff5e62); animation: spin 3s linear infinite; }
+  .pkg.premium::after { background: linear-gradient(135deg, #eaf6ff, #cfe9fb); }
+  .pkg.premium { animation: glow 2.2s ease-in-out infinite; }
+  @keyframes glow {
+    0%, 100% { box-shadow: 0 0 6px rgba(43,122,160,0.3); }
+    50%      { box-shadow: 0 0 24px rgba(43,122,160,0.9); }
+  }
+  .pkg-head b { font-size: 1.5rem; display: block; }
+  .pkg-head span { color: #666; font-size: 0.9rem; }
+  .pkg.premium .pkg-head span { color: #1d5878; font-weight: bold; }
+
+  .info { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.45s ease, opacity 0.3s ease, margin-top 0.3s; text-align: left; font-size: 0.9rem; }
+  .pkg:hover .info, .pkg.open .info { max-height: 320px; opacity: 1; margin-top: 12px; }
+  .info ul { padding-left: 18px; margin-bottom: 10px; line-height: 1.8; }
+  .info .order { width: 100%; }
   iframe { width: 100%; height: 88vh; border: 1px solid #ccc; border-radius: 8px; background: #fff; }
-  @media (max-width: 900px) { .wrap { grid-template-columns: 1fr; } iframe { height: 70vh; } }
+  @media (max-width: 900px) { .wrap { grid-template-columns: 1fr; } .left { position: static; } iframe { height: 70vh; } }
 </style>
 </head>
 <body>
 <header>Menyu yaradın</header>
 
 <div class="wrap">
-  <div>
+  <div class="left">
     <div class="panel">
       <h3>1. Restoran</h3>
       <label>Adı</label>
@@ -66,10 +91,35 @@
     <div class="panel">
       <h3>5. Paket</h3>
       <div class="pkgs">
-        <div class="pkg"><b>24 AZN</b>/ay<br><br><button class="primary" data-pkg="24">Seç</button></div>
-        <div class="pkg"><b>48 AZN</b>/ay<br><br><button class="primary" data-pkg="48">Seç</button></div>
+        <div class="pkg standard" data-card="standart">
+          <div class="pkg-head"><b>24 AZN</b><span>/ay · Standart</span></div>
+          <div class="info">
+            <ul>
+              <li>1 şablon (rəng palitrası)</li>
+              <li>30 məhsula qədər menyu</li>
+              <li>5 şəkil</li>
+              <li>Ayda 1 dəyişiklik</li>
+              <li>WhatsApp dəstəyi</li>
+            </ul>
+            <button class="primary order" data-order="Standart 24 AZN">Sifariş et</button>
+          </div>
+        </div>
+        <div class="pkg premium" data-card="premium">
+          <div class="pkg-head"><b>48 AZN</b><span>/ay · Premium</span></div>
+          <div class="info">
+            <ul>
+              <li>Bütün şablonlar</li>
+              <li>Məhsul limiti yoxdur</li>
+              <li>15 şəkil</li>
+              <li>Sınırsız dəyişiklik</li>
+              <li>Öz domeniniz</li>
+              <li>Prioritet dəstək</li>
+            </ul>
+            <button class="primary order" data-order="Premium 48 AZN">Sifariş et</button>
+          </div>
+        </div>
       </div>
-      <p class="small">Paket seçəndə WhatsApp-da məlumatlarınız hazır mesaj kimi açılacaq. Şəkilləri həmin söhbətə əlavə edin.</p>
+      <p class="small" style="margin-top:10px">Paket məlumatları müvəqqətidir, sonra dəqiqləşdiriləcək.</p>
       <button id="dl" style="margin-top:10px">index.html yüklə</button>
     </div>
   </div>
@@ -189,6 +239,8 @@
   }
 
   // ---------- Sayt generasiyası ----------
+  // DİQQƏT: generasiya olunan skriptdə "</script>" yazılmır — "<\/script>" yazılır,
+  // əks halda brauzer bu builder-in öz skriptini burada bağlayır.
   function siteHTML() {
     const p = PALETTES[data.pal];
     const photos = data.photos.length ? data.photos : defaults;
@@ -254,7 +306,7 @@
 <script>
   const s = document.querySelectorAll(".slide"); let k = 0;
   if (s.length > 1) setInterval(() => { s[k].classList.remove("active"); k = (k + 1) % s.length; s[k].classList.add("active"); }, 5000);
-</script>
+<\/script>
 </body></html>`;
   }
 
@@ -272,10 +324,16 @@
     a.click();
   };
 
-  // ---------- Paket sifarişi (WhatsApp) ----------
-  document.querySelectorAll("[data-pkg]").forEach(b => b.onclick = () => {
+  // ---------- Paketlər: üzərinə basanda / gətiriləndə məlumat açılır ----------
+  document.querySelectorAll(".pkg").forEach(card => card.addEventListener("click", e => {
+    if (e.target.closest("[data-order]")) return;
+    card.classList.toggle("open");
+  }));
+
+  // ---------- Sifariş (WhatsApp) ----------
+  document.querySelectorAll("[data-order]").forEach(b => b.onclick = () => {
     const lines = [
-      `Salam! ${b.dataset.pkg} AZN/ay paketini seçmək istəyirəm.`,
+      `Salam! ${b.dataset.order} paketini seçmək istəyirəm.`,
       `Restoran: ${data.name || "-"}`,
       `Şablon: ${PALETTES[data.pal].name}`,
       `Menyu:`
