@@ -39,24 +39,43 @@
   /* ===== Paketlər: yalnız kənar xətt rəngli və fırlanan olur ===== */
   .pkgs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .pkg {
-    --bg: #f5f5f3; --edge: #d9d9d4;
-    border: 3px solid transparent;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #d9d9d4;
     border-radius: 12px;
     padding: 14px;
     cursor: pointer;
     text-align: center;
-    background: linear-gradient(var(--bg), var(--bg)) padding-box, linear-gradient(var(--edge), var(--edge)) border-box;
+    background: #f5f5f3;
   }
-  .pkg.premium {
-    --bg: #e6f3fb; --edge: #2b7aa0;
-    animation: glow 2.2s ease-in-out infinite;
+  .pkg > * { position: relative; z-index: 1; }
+  /* Rəngli parıltı kartın içindən keçir */
+  .pkg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(105deg, transparent 30%, rgba(255,94,98,0.35), rgba(255,227,89,0.35), rgba(76,217,100,0.35), rgba(90,200,250,0.35), rgba(175,82,222,0.35), transparent 70%);
+    background-size: 250% 100%;
+    background-position: 150% 0;
+    opacity: 0;
+    transition: opacity 0.3s;
   }
-  .pkg:hover, .pkg.open {
-    background: linear-gradient(var(--bg), var(--bg)) padding-box,
-                conic-gradient(from var(--a), #ff5e62, #ffb347, #ffe259, #4cd964, #5ac8fa, #af52de, #ff5e62) border-box;
-    animation: spin 3s linear infinite;
+  .pkg:hover::before, .pkg.open::before { opacity: 1; animation: sparkle 2.4s linear infinite; }
+  @keyframes sparkle { from { background-position: 150% 0; } to { background-position: -50% 0; } }
+
+  /* Kartın özü titrəyir */
+  .pkg:hover, .pkg.open { animation: tremble 0.5s ease-in-out infinite; }
+  @keyframes tremble {
+    0%, 100% { transform: translate(0, 0); }
+    20%      { transform: translate(-1px, 0) rotate(-0.3deg); }
+    40%      { transform: translate(1px, -1px); }
+    60%      { transform: translate(-1px, 1px) rotate(0.3deg); }
+    80%      { transform: translate(1px, 0); }
   }
-  @keyframes spin { to { --a: 360deg; } }
+
+  .pkg.premium { border-color: #2b7aa0; background: #e6f3fb; animation: glow 2.2s ease-in-out infinite; }
+  .pkg.premium:hover, .pkg.premium.open { animation: tremble 0.5s ease-in-out infinite, glow 2.2s ease-in-out infinite; }
   @keyframes glow {
     0%, 100% { box-shadow: 0 0 6px rgba(43,122,160,0.3); }
     50%      { box-shadow: 0 0 22px rgba(43,122,160,0.85); }
