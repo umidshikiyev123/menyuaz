@@ -102,6 +102,32 @@
   .info .order { width: 100%; }
 
   iframe { width: 100%; height: 100%; border: 1px solid #ccc; border-radius: 8px; background: #fff; }
+  /* ===== Tünd göy və boz tema ===== */
+  body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #334155 100%); background-attachment: fixed; color: #e2e8f0; }
+  header { background: linear-gradient(90deg, #0b1d3a, #1e3a5f 60%, #475569); box-shadow: 0 4px 18px rgba(0,0,0,0.35); }
+  .panel { background: rgba(30,41,59,0.94); border: 1px solid #334155; box-shadow: 0 8px 26px rgba(0,0,0,0.3); }
+  h3 { color: #93c5fd; }
+  label { color: #cbd5e1; }
+  input { background: #0f172a; color: #e2e8f0; border: 1px solid #475569; }
+  input:focus { border-color: #60a5fa; box-shadow: 0 0 0 3px rgba(96,165,250,0.25); }
+  input::placeholder { color: #64748b; }
+  button { background: #1e293b; color: #cbd5e1; border: 1px solid #475569; }
+  button.primary { background: linear-gradient(90deg, #1d4ed8, #475569); color: #fff; border: none; }
+  .pal label { background: #0f172a; color: #e2e8f0; border: 1px solid #475569; }
+  .rec { color: #6ee7b7; }
+  .cat { background: linear-gradient(180deg, #1e293b, #273449); border: 1px solid #334155; }
+  .prod { background: #0f172a; border: 1px solid #334155; }
+  .del { color: #fca5a5; border-color: #7f1d1d; }
+  .add, .addcat { color: #93c5fd; border-color: #3b82f6; }
+  .small { color: #94a3b8; }
+  .small a { color: #60a5fa; }
+  .pkg { background: #1e293b; border: 1px solid #475569; }
+  .pkg.premium { background: #172c44; border-color: #3b82f6; }
+  .pkg-head span { color: #94a3b8; }
+  .pkg.premium .pkg-head span { color: #7dd3fc; }
+  .info { color: #e2e8f0; }
+  .pkgs:hover .info, .pkgs.open .info { color: #e2e8f0; }
+  .thumbs img { border: 1px solid #334155; }
   @media (max-width: 900px) { .wrap { grid-template-columns: 1fr; } .right { position: static; height: 70vh; } }
 </style>
 </head>
@@ -175,8 +201,8 @@
           </div>
         </div>
       </div>
-      <p class="small" style="margin-top:10px">Ucuz və sərfəli paket üçün bizə yazın: <a href="https://wa.me/994000000000" target="_blank" rel="noopener">+994 00 000 00 00</a></p>
-      <p class="small" style="margin-top:12px">Saytı aktiv saxlamaq üçün hər 3 ayda bir ödəniş etməlisiniz. Narahat olmayın, ödənişlər kiçikdir. Daha çox və dərin məlumat yalnız bizim <a href="https://wa.me/994000000000" target="_blank" rel="noopener">WhatsApp ünvanımızdadır</a>.</p>
+      <p class="small" style="margin-top:10px">Ucuz və sərfəli paket üçün bizə yazın: <a href="https://wa.me/994991295237" target="_blank" rel="noopener">+994 99 129 52 37</a></p>
+      <p class="small" style="margin-top:12px">Saytı aktiv saxlamaq üçün hər 3 ayda bir ödəniş etməlisiniz. Narahat olmayın, ödənişlər kiçikdir. Daha çox və dərin məlumat yalnız bizim <a href="https://wa.me/994991295237" target="_blank" rel="noopener">WhatsApp ünvanımızdadır</a>.</p>
       <div class="dlrow"><button id="dl">Saytı endir (index.html)</button><span class="small">Saytı endirib bizə göndərin. Biz isə sizin saytınızı sərfəli və ucuz formada hazırlayırıq.</span></div>
           </div>
   </div>
@@ -186,7 +212,7 @@
 
 <script>
   // Sizin WhatsApp nömrəniz (paket sifarişləri bura gəlir)
-  const SALES_NUMBER = "994000000000";
+  const SALES_NUMBER = "994991295237";
 
   const PALETTES = [
     { name: "Klassik",      paper: "#f7f1e8", card: "#fffdf9", ink: "#2a2520", muted: "#7a6f64", accent: "#b5452f", line: "#e2d8c8", dark: "#1d1a17" },
