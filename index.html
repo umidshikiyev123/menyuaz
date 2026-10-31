@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Menyu</title>
+  <title>MenyuAZ</title>
   <style>
     :root {
       --dark: #1d1a17;
@@ -24,10 +24,10 @@
       transition: background 0.5s ease, color 0.5s ease;
     }
 
-    /* ===== Hero: fade ilə dəyişən arxa plan şəkilləri (üfüqi, geniş) ===== */
+    /* ===== Hero ===== */
     .hero {
       position: relative;
-      min-height: 68vh;
+      min-height: 62vh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -52,11 +52,7 @@
       background: linear-gradient(rgba(20,16,12,0.45), rgba(20,16,12,0.8));
       z-index: 1;
     }
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      padding: 20px;
-    }
+    .hero-content { position: relative; z-index: 2; padding: 20px; }
     .hero h1 {
       font-size: clamp(2.4rem, 6vw, 4.2rem);
       letter-spacing: 1px;
@@ -79,7 +75,7 @@
       z-index: 2;
     }
 
-    /* ===== Menyu kartı (geniş, kateqoriyalar yan-yana) ===== */
+    /* ===== Menyu kartı (rəng şablonunu izləyir) ===== */
     .menu-wrap {
       max-width: 1100px;
       margin: -70px auto 0;
@@ -90,11 +86,11 @@
     .menu-card {
       background: var(--card);
       border: 1px solid var(--line);
-      border-radius: 6px;
-      padding: 36px 36px;
+      border-radius: 10px;
+      padding: 36px;
       box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+      transition: background 0.5s ease, border-color 0.5s ease;
     }
-
     .lang-switch {
       display: flex;
       justify-content: center;
@@ -109,14 +105,13 @@
       cursor: pointer;
       font-family: inherit;
       font-size: 0.8rem;
-      border-radius: 3px;
+      border-radius: 4px;
     }
     .lang-switch button.active {
-      background: var(--ink);
+      background: var(--accent);
       color: #fff;
-      border-color: var(--ink);
+      border-color: var(--accent);
     }
-
     #menu {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -132,7 +127,6 @@
       border-bottom: 1px solid var(--line);
       margin-bottom: 14px;
     }
-
     .item {
       display: flex;
       justify-content: space-between;
@@ -150,87 +144,90 @@
       font-style: italic;
       margin-top: 2px;
     }
-    .item-price {
-      font-size: 1.05rem;
-      white-space: nowrap;
-    }
+    .item-price { font-size: 1.05rem; white-space: nowrap; }
 
     /* ===== Öz menyunu yarat bölməsi ===== */
     .cta {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 40px 24px 20px;
+      padding: 50px 24px 30px;
       text-align: center;
     }
     .cta h2 {
-      font-size: 1.7rem;
+      font-size: 1.9rem;
       font-weight: normal;
       margin-bottom: 10px;
     }
     .cta > p {
       color: var(--muted);
-      margin-bottom: 20px;
+      max-width: 640px;
+      margin: 0 auto 26px;
     }
-    .cta-btn {
+    .make-btn {
       display: inline-block;
       background: var(--accent);
       color: #fff;
       text-decoration: none;
-      padding: 12px 26px;
-      border-radius: 4px;
+      padding: 16px 40px;
+      border-radius: 6px;
       font-family: inherit;
-      letter-spacing: 1px;
-    }
-    .cta-btn:hover { opacity: 0.9; }
-
-    /* Hazır şablonlar: rəng palitraları */
-    .templates-title {
-      margin: 34px 0 14px;
       font-size: 1.1rem;
+      letter-spacing: 1px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.18);
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .make-btn:hover { transform: translateY(-2px); opacity: 0.95; }
+
+    .templates-title {
+      margin: 44px 0 16px;
+      font-size: 1rem;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--muted);
     }
     .templates {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 16px;
     }
     .template {
       background: var(--card);
       border: 1px solid var(--line);
-      border-radius: 6px;
-      padding: 16px;
-      text-align: left;
+      border-radius: 10px;
+      padding: 10px;
       cursor: pointer;
       font-family: inherit;
       color: var(--ink);
+      text-align: center;
+      transition: transform 0.2s, border-color 0.2s;
     }
-    .template.active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) inset; }
+    .template:hover { transform: translateY(-2px); }
+    .template.active { border: 2px solid var(--accent); }
+    .tpl-box {
+      display: block;
+      height: 64px;
+      border-radius: 6px;
+      border: 1px solid rgba(0,0,0,0.1);
+      background: linear-gradient(90deg, var(--l) 50%, var(--r) 50%);
+    }
     .template strong {
       display: block;
       font-weight: normal;
-      margin-bottom: 10px;
-    }
-    .swatches { display: flex; gap: 6px; }
-    .swatches span {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      border: 1px solid rgba(0,0,0,0.12);
+      margin-top: 10px;
+      font-size: 0.95rem;
     }
 
     .features {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 14px;
-      margin: 28px 0 10px;
+      margin: 36px 0 26px;
       text-align: left;
     }
     .feature {
       background: var(--card);
       border: 1px solid var(--line);
-      border-radius: 6px;
+      border-radius: 10px;
       padding: 16px;
     }
     .feature strong {
@@ -239,9 +236,15 @@
       font-weight: normal;
       color: var(--ink);
     }
-    .feature span {
-      font-size: 0.9rem;
-      color: var(--muted);
+    .feature span { font-size: 0.9rem; color: var(--muted); }
+
+    .contact-link {
+      display: inline-block;
+      color: var(--accent);
+      font-size: 0.95rem;
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 2px;
     }
 
     footer {
@@ -273,7 +276,7 @@
   <div class="slide" style="background-image:url('images/bg5.avif')"></div>
   <div class="hero-content">
     <h1 id="shopName">Restoran Adı</h1>
-    <p id="tagline">Slogan burada yazılır</p>
+    <p id="tagline">MenyuAZ</p>
   </div>
   <span class="scroll-hint">AŞAĞI</span>
 </section>
@@ -291,6 +294,7 @@
 <section class="cta reveal" id="cta">
   <h2 id="ctaTitle">Öz menyunuzu yaradın</h2>
   <p id="ctaText">Kafe və ya restoranınız üçün QR menyu saytı qurun. Qiymətləri və məhsulları istədiyiniz vaxt dəyişə bilərsiniz.</p>
+  <a class="make-btn" href="builder.html" id="makeBtn">Menyunuzu indi yaradın</a>
 
   <div class="templates-title" id="tplTitle">Hazır şablonlar</div>
   <div class="templates" id="templates"></div>
@@ -301,8 +305,7 @@
     <div class="feature"><strong>QR kod</strong><span>Masalara qoyulan QR kodla menyu açılır.</span></div>
     <div class="feature"><strong>Ayrıca domen</strong><span>Sayt üçün öz linkinizi əldə edin.</span></div>
   </div>
-  <p style="margin-bottom:14px"><a class="cta-btn" href="builder.html">Menyunuzu indi yaradın</a></p>
-  <a class="cta-btn" id="ctaBtn" href="https://wa.me/994991295237" target="_blank" rel="noopener">Əlaqə saxla</a>
+  <a class="contact-link" id="ctaBtn" href="https://wa.me/994991295237" target="_blank" rel="noopener">Əlaqə saxla</a>
 </section>
 
 <footer id="footer">Qiymətlər AZN ilə göstərilir</footer>
@@ -315,7 +318,7 @@
 
   const shop = {
     name: { az: "Restoran Adı", en: "Restaurant Name" },
-    tagline: { az: "Slogan burada yazılır", en: "Your tagline here" },
+    tagline: { az: "MenyuAZ", en: "MenyuAZ" },
     footer: { az: "Qiymətlər AZN ilə göstərilir", en: "Prices in AZN" },
     cta: {
       title: { az: "Öz menyunuzu yaradın", en: "Create your own menu" },
@@ -324,6 +327,7 @@
         en: "Build a QR menu site for your cafe or restaurant. Change prices and items whenever you want."
       },
       button: { az: "Əlaqə saxla", en: "Contact us" },
+      make: { az: "Menyunuzu indi yaradın", en: "Create your menu now" },
       templates: { az: "Hazır şablonlar", en: "Ready-made themes" }
     }
   };
@@ -351,7 +355,7 @@
     }
   ];
 
-  // Hazır rəng palitraları (şablonlar)
+  // Hazır rəng palitraları (şablonlar) — builder.html ilə eyni
   const templates = [
     {
       name: { az: "Klassik", en: "Classic" },
@@ -368,6 +372,10 @@
     {
       name: { az: "Dəniz", en: "Sea" },
       colors: { paper: "#eaf2f6", card: "#f8fbfd", ink: "#1b2f3a", muted: "#5d7786", accent: "#2b7aa0", line: "#cfdfe8", dark: "#102029" }
+    },
+    {
+      name: { az: "Gül", en: "Rose" },
+      colors: { paper: "#fbeef0", card: "#fff8f9", ink: "#3a2025", muted: "#8a6670", accent: "#c2566b", line: "#efd3d9", dark: "#2a1419" }
     }
   ];
   // ===================================================
@@ -379,6 +387,7 @@
     return obj[currentLang] || obj.az;
   }
 
+  // Seçilmiş şablonun rəngləri bütün saytı (o cümlədən menyu kartını) dəyişir
   function applyTemplate(index) {
     currentTemplate = index;
     const c = templates[index].colors;
@@ -401,14 +410,11 @@
     templates.forEach((tpl, i) => {
       const btn = document.createElement("button");
       btn.className = "template";
-      btn.innerHTML = `<strong></strong><div class="swatches"></div>`;
+      btn.innerHTML = `<span class="tpl-box"></span><strong></strong>`;
+      const box = btn.querySelector(".tpl-box");
+      box.style.setProperty("--l", tpl.colors.paper);
+      box.style.setProperty("--r", tpl.colors.accent);
       btn.querySelector("strong").textContent = t(tpl.name);
-      const sw = btn.querySelector(".swatches");
-      [tpl.colors.paper, tpl.colors.accent, tpl.colors.ink].forEach(col => {
-        const s = document.createElement("span");
-        s.style.background = col;
-        sw.appendChild(s);
-      });
       btn.addEventListener("click", () => applyTemplate(i));
       wrap.appendChild(btn);
     });
@@ -421,10 +427,11 @@
     document.getElementById("footer").textContent = t(shop.footer);
     document.getElementById("ctaTitle").textContent = t(shop.cta.title);
     document.getElementById("ctaText").textContent = t(shop.cta.text);
+    document.getElementById("makeBtn").textContent = t(shop.cta.make);
     document.getElementById("tplTitle").textContent = t(shop.cta.templates);
     document.getElementById("ctaBtn").textContent = t(shop.cta.button);
     document.getElementById("ctaBtn").href = "https://wa.me/" + whatsappNumber;
-    document.title = t(shop.name);
+    document.title = t(shop.name) + " — MenyuAZ";
     document.documentElement.lang = currentLang;
 
     const menu = document.getElementById("menu");
